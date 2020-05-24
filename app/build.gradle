@@ -40,8 +40,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
 
     // prefs builder: https://github.com/mofazhe/PrefsBuilder-demo
-    implementation project(':libPrefsBuilderCore')
-    annotationProcessor project(':libPrefsBuilderAnntationProcessor')
+    // implementation project(':core')
+    implementation 'com.mfz.prefbuilder:core:0.0.6'
+    // annotationProcessor project(':anntation-processor')
+    annotationProcessor 'com.mfz.prefbuilder:anntation-processor:0.0.6'
 
     // Gson: https://github.com/google/gson
     implementation 'com.google.code.gson:gson:2.8.5'

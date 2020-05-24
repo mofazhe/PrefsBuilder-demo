@@ -10,7 +10,7 @@ ext {
 
     publishedGroupId = 'com.mfz.prefbuilder'
     artifact = 'core'
-    libraryVersion = '0.0.1' // publishedGroupId:artifact:libraryVersion
+    libraryVersion = '0.0.6' // publishedGroupId:artifact:libraryVersion
     libraryName = 'core' //libraryname, artifact must be same as the library module name
     libraryDescription = 'Prefs builder'
 
@@ -41,7 +41,6 @@ javadoc {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 sourceCompatibility = "7"
