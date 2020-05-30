@@ -248,6 +248,9 @@ public class ElementHandler {
     }
 
     public void createJavaFiles() {
+        if (mBasePrefsClassname == null) {
+            throw new NullPointerException("Base prefs class is null! Please implement BasePrefsInterface!");
+        }
         Set<Map.Entry<String, List<Element>>> entrySet = classMap.entrySet();
         for (Map.Entry<String, List<Element>> entry : entrySet) {
             createPrefs(entry.getKey(), entry.getValue());
