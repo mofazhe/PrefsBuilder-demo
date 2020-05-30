@@ -10,7 +10,7 @@ ext {
 
     publishedGroupId = 'com.mfz.prefbuilder'
     artifact = 'anntation-processor'
-    libraryVersion = '0.0.6' // publishedGroupId:artifact:libraryVersion
+    libraryVersion = '0.0.7' // publishedGroupId:artifact:libraryVersion
     libraryName = 'anntation-processor' //libraryname, artifact must be same as the library module name
     libraryDescription = 'Prefs builder'
 

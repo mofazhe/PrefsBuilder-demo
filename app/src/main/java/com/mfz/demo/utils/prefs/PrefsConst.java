@@ -9,7 +9,7 @@ import com.mfz.prefsbuilder.PrefsVal;
  * @time 18:33:01
  */
 public class PrefsConst {
-    @PrefsClass(className = "Test", currentPkg = true)
+    @PrefsClass(currentPkg = true)
     public static class Test {
         @PrefsVal.String()
         public static String SHOW_EDIT_TEXT_BUTTON = "a";

@@ -21,10 +21,10 @@ import com.mfz.prefsbuilder.PrefsVal;
  * @date 2020/05/14/Thu
  * @time 10:17
  */
-@PrefsClass(className = "Settings")
+@PrefsClass(className = "Settings",currentClassName = false)
 public class PrefsConst {
-    @PrefsClass(className = "User")
-    public static class UserPrefsConst {
+    @PrefsClass()
+    public static class User {
         @PrefsVal.Int()
         public static final String TEST_INT = "null";
         @PrefsVal.String(defNull = true)

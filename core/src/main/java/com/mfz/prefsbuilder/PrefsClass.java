@@ -16,11 +16,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 public @interface PrefsClass {
     /**
-     * 最终的名字是 统一前缀+这个值+统一后缀
+     * 最终的新类名是 统一前缀+这个值+统一后缀
      *
      * @return the string
      */
-    String className();
+    String className() default "";
 
     /**
      * 若这个值不为空则优先使用该值，
@@ -29,6 +29,15 @@ public @interface PrefsClass {
      * @return the string
      */
     String pkgName() default "";
+
+    /**
+     * 这个值若为true则优先使用当前的类名作为新建的类名，
+     * 否则取{@link PrefsClass#className()}的值
+     * 该值为true时，最终的新类名为 统一前缀+当前类名+统一后缀
+     *
+     * @return the boolean
+     */
+    boolean currentClassName() default true;
 
     /**
      * 这个值若为true则优先使用当前包名，

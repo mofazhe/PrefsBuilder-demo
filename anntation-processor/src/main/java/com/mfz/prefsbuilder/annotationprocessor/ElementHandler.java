@@ -111,9 +111,16 @@ public class ElementHandler {
                         pkgName = pkgName.substring(0, pkgName.length() - 1);
                     }
                 }
-                String className = classPrefix + annotation.className() + classSuffix;
+                String classNameVal = annotation.currentClassName() ?
+                        element.getSimpleName().toString() : annotation.className();
+                if (StringUtils.isEmpty(classNameVal)) {
+                    throw new NullPointerException("New class name is empty in "
+                            + typeElement.getQualifiedName().toString()
+                            + "! Please specify the new class name!");
+                }
+                String className = classPrefix + classNameVal + classSuffix;
                 String fileName = StringUtils.isEmpty(annotation.fileName()) ?
-                        StringUtils.camel2SmallConst(annotation.className()) : annotation.fileName();
+                        StringUtils.camel2SmallConst(classNameVal) : annotation.fileName();
                 PrefsClassInfo prefsClassInfo = PrefsClassInfo.newBuilder()
                         .className(ClassName.get(pkgName, className))
                         .fileName(fileName)
