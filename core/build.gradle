@@ -10,7 +10,7 @@ ext {
 
     publishedGroupId = 'com.mfz.prefbuilder'
     artifact = 'core'
-    libraryVersion = '0.0.7' // publishedGroupId:artifact:libraryVersion
+    libraryVersion = '0.0.8' // publishedGroupId:artifact:libraryVersion
     libraryName = 'core' //libraryname, artifact must be same as the library module name
     libraryDescription = 'Prefs builder'
 

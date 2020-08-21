@@ -15,19 +15,18 @@ import java.lang.annotation.Target;
  * @date 2020 /05/14/Thu
  * @time 14 :56
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.FIELD)
-public @interface PrefsVal {
+public class PrefsVal {
 
     /**
      * int类型
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Int {
+    public @interface Int {
         /**
          * 默认值的方法
          * 优先级高
+         * 仅限使用大于0的值
          *
          * @return the int
          */
@@ -46,7 +45,7 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * key的后缀class类型.
@@ -54,7 +53,7 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -62,7 +61,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Float {
+    public @interface Float {
         /**
          * Def val from id int.
          *
@@ -82,14 +81,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -97,7 +96,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Bool {
+    public @interface Bool {
         /**
          * Def val from id int.
          *
@@ -117,14 +116,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -132,7 +131,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Byte {
+    public @interface Byte {
         /**
          * Def val from id int.
          *
@@ -152,14 +151,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -167,7 +166,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Double {
+    public @interface Double {
         /**
          * Def val from id int.
          *
@@ -187,14 +186,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -202,7 +201,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Char {
+    public @interface Char {
         /**
          * Def val from id int.
          *
@@ -222,14 +221,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -237,7 +236,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Long {
+    public @interface Long {
         /**
          * Def val from id int.
          *
@@ -257,14 +256,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -272,7 +271,7 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Short {
+    public @interface Short {
         /**
          * Def val from id int.
          *
@@ -292,14 +291,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -307,11 +306,12 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface String {
+    public @interface String {
 
         /**
          * 默认值从该id关联的注解静态方法中获取，该静态方法最多仅能有一个参数，
          * 返回的对象必须是String
+         * 大于0的值才有效
          *
          * @return 关联的id int
          */
@@ -330,21 +330,21 @@ public @interface PrefsVal {
          *
          * @return 是否为null boolean
          */
-        boolean defNull() default false;
+        boolean defNull() default true;
 
         /**
          * Prefix type class.
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
 
         /**
          * 编解码方法id，string特有参数
@@ -361,14 +361,14 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Object {
+    public @interface Object {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class type();
+        Class<?> type();
 
         /**
          * 默认值从该key关联的注解静态方法中获取，该静态方法最多仅能有一个参数，
@@ -384,7 +384,7 @@ public @interface PrefsVal {
          *
          * @return 是否为null boolean
          */
-        boolean defNull() default false;
+        boolean defNull() default true;
 
         /**
          * 默认的string
@@ -398,14 +398,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -414,14 +414,14 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface List {
+    public @interface List {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class type();
+        Class<?> type();
 
         /**
          * 默认值从该key关联的注解静态方法或常量中获取，若为静态方法，则最多仅能有一个参数，
@@ -433,11 +433,21 @@ public @interface PrefsVal {
 
         /**
          * 默认值是否为null，当为true时，那么其他默认值无效
+         * {@link #defEmpty()} ()}
          * {@link #defValFromId()}
          *
          * @return 是否为null boolean
          */
         boolean defNull() default false;
+
+        /**
+         * 默认值是否为空列表，
+         * 优先级低于{@link #defNull()}
+         * {@link #defValFromId()}
+         *
+         * @return 是否为null boolean
+         */
+        boolean defEmpty() default true;
 
         /**
          * 默认的string
@@ -451,14 +461,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -467,14 +477,14 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Set {
+    public @interface Set {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class type();
+        Class<?> type();
 
         /**
          * 默认值从该key关联的注解静态方法或常量中获取，若为静态方法，则最多仅能有一个参数，
@@ -487,10 +497,20 @@ public @interface PrefsVal {
         /**
          * 默认值是否为null，当为true时，那么其他默认值无效
          * {@link #defValFromId()}
+         * {@link #defEmpty()} ()}
          *
          * @return 是否为null boolean
          */
         boolean defNull() default false;
+
+        /**
+         * 默认值是否为空列表，
+         * 优先级低于{@link #defNull()}
+         * {@link #defValFromId()}
+         *
+         * @return 是否为null boolean
+         */
+        boolean defEmpty() default true;
 
         /**
          * 默认的string
@@ -504,14 +524,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -520,14 +540,14 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Queue {
+    public @interface Queue {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class type();
+        Class<?> type();
 
         /**
          * 默认值从该key关联的注解静态方法或常量中获取，若为静态方法，则最多仅能有一个参数，
@@ -546,6 +566,15 @@ public @interface PrefsVal {
         boolean defNull() default false;
 
         /**
+         * 默认值是否为空列表，
+         * 优先级低于{@link #defNull()}
+         * {@link #defValFromId()}
+         *
+         * @return 是否为null boolean
+         */
+        boolean defEmpty() default true;
+
+        /**
          * 默认的string
          *
          * @return 字符串 java . lang . string
@@ -557,14 +586,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -573,14 +602,14 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Deque {
+    public @interface Deque {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class type();
+        Class<?> type();
 
         /**
          * 默认值从该key关联的注解静态方法或常量中获取，若为静态方法，则最多仅能有一个参数，
@@ -599,6 +628,15 @@ public @interface PrefsVal {
         boolean defNull() default false;
 
         /**
+         * 默认值是否为空列表，
+         * 优先级低于{@link #defNull()}
+         * {@link #defValFromId()}
+         *
+         * @return 是否为null boolean
+         */
+        boolean defEmpty() default true;
+
+        /**
          * 默认的string
          *
          * @return 字符串 java . lang . string
@@ -610,14 +648,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -627,14 +665,14 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface SparseArray {
+    public @interface SparseArray {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class type();
+        Class<?> type();
 
         /**
          * 默认值从该key关联的注解静态方法或常量中获取，若为静态方法，则最多仅能有一个参数，
@@ -653,6 +691,15 @@ public @interface PrefsVal {
         boolean defNull() default false;
 
         /**
+         * 默认值是否为空列表，
+         * 优先级低于{@link #defNull()}
+         * {@link #defValFromId()}
+         *
+         * @return 是否为null boolean
+         */
+        boolean defEmpty() default true;
+
+        /**
          * 默认的string
          *
          * @return 字符串 java . lang . string
@@ -664,14 +711,14 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 
     /**
@@ -680,21 +727,21 @@ public @interface PrefsVal {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.FIELD)
-    @interface Map {
+    public @interface Map {
 
         /**
          * 返回值类型
          *
          * @return the class
          */
-        Class keyType();
+        Class<?> keyType();
 
         /**
          * 返回值的泛型
          *
          * @return the class
          */
-        Class valType();
+        Class<?> valType();
 
         /**
          * 默认值从该key关联的注解静态方法或常量中获取，若为静态方法，则最多仅能有一个参数，
@@ -713,6 +760,15 @@ public @interface PrefsVal {
         boolean defNull() default false;
 
         /**
+         * 默认值是否为空列表，
+         * 优先级低于{@link #defNull()}
+         * {@link #defValFromId()}
+         *
+         * @return 是否为null boolean
+         */
+        boolean defEmpty() default true;
+
+        /**
          * 默认的string
          *
          * @return 字符串 java . lang . string
@@ -724,13 +780,13 @@ public @interface PrefsVal {
          *
          * @return the class
          */
-        Class prefixType() default void.class;
+        Class<?> prefixType() default void.class;
 
         /**
          * Suffix type class.
          *
          * @return the class
          */
-        Class suffixType() default void.class;
+        Class<?> suffixType() default void.class;
     }
 }

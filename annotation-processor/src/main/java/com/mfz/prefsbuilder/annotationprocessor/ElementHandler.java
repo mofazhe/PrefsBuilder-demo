@@ -1,5 +1,6 @@
 package com.mfz.prefsbuilder.annotationprocessor;
 
+import com.mfz.prefsbuilder.StringCodec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
@@ -14,6 +15,8 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -35,8 +38,6 @@ import com.mfz.prefsbuilder.BasePrefsClass;
 import com.mfz.prefsbuilder.DefaultValue;
 import com.mfz.prefsbuilder.PrefsClass;
 import com.mfz.prefsbuilder.PrefsVal;
-import com.mfz.prefsbuilder.StringDecode;
-import com.mfz.prefsbuilder.StringEncode;
 
 /**
  * @author mz
@@ -200,8 +201,8 @@ public class ElementHandler {
 
     public void handleCodecMethod(RoundEnvironment roundEnv) {
         List<Class<? extends Annotation>> classes = new ArrayList<>();
-        classes.add(StringDecode.class);
-        classes.add(StringEncode.class);
+        classes.add(StringCodec.Decode.class);
+        classes.add(StringCodec.Encode.class);
         for (Class<? extends Annotation> cls : classes) {
             Set<? extends Element> aimElements = roundEnv.getElementsAnnotatedWith(cls);
             for (Element element : aimElements) {
@@ -220,11 +221,11 @@ public class ElementHandler {
                             .build();
                     int id;
                     Annotation annotation = element.getAnnotation(cls);
-                    if (annotation instanceof StringEncode) {
-                        id = ((StringEncode) annotation).id();
+                    if (annotation instanceof StringCodec.Encode) {
+                        id = ((StringCodec.Encode) annotation).id();
                         mEncodeMethodMap.put(id, params);
                     } else {
-                        id = ((StringDecode) annotation).id();
+                        id = ((StringCodec.Decode) annotation).id();
                         mDecodeMethodMap.put(id, params);
                     }
                     break;
@@ -338,6 +339,7 @@ public class ElementHandler {
         ClassName currentClass = ClassName.bestGuess(qualifiedName);
         int defValFromId = -1;
         boolean defNull = false;
+        boolean defEmpty = false;
         String defString = null;
         int type = 0;
         TypeName prefixTypeName = null;
@@ -420,9 +422,9 @@ public class ElementHandler {
                 typeName = mStringTypeName;
                 PrefsVal.String annotationObj = (PrefsVal.String) annotation;
                 if (annotationObj.defNull()) {
-                    defValue = "null";
+                    defValue = null;
                 } else {
-                    defValue = MethodUtils.wrapperQuotes(annotationObj.defVal());
+                    defValue = annotationObj.defVal();
                 }
                 defValFromId = annotationObj.defValFromId();
                 valueName = "String";
@@ -445,6 +447,7 @@ public class ElementHandler {
                 PrefsVal.List annotationObj = (PrefsVal.List) annotation;
                 defValFromId = annotationObj.defValFromId();
                 defNull = annotationObj.defNull();
+                defEmpty = annotationObj.defEmpty();
                 defString = annotationObj.defString();
                 type = 2;
                 break;
@@ -456,6 +459,7 @@ public class ElementHandler {
                 PrefsVal.Set annotationObj = (PrefsVal.Set) annotation;
                 defValFromId = annotationObj.defValFromId();
                 defNull = annotationObj.defNull();
+                defEmpty = annotationObj.defEmpty();
                 defString = annotationObj.defString();
                 type = 2;
                 break;
@@ -467,6 +471,7 @@ public class ElementHandler {
                 PrefsVal.Queue annotationObj = (PrefsVal.Queue) annotation;
                 defValFromId = annotationObj.defValFromId();
                 defNull = annotationObj.defNull();
+                defEmpty = annotationObj.defEmpty();
                 defString = annotationObj.defString();
                 type = 2;
                 break;
@@ -478,6 +483,7 @@ public class ElementHandler {
                 PrefsVal.Deque annotationObj = (PrefsVal.Deque) annotation;
                 defValFromId = annotationObj.defValFromId();
                 defNull = annotationObj.defNull();
+                defEmpty = annotationObj.defEmpty();
                 defString = annotationObj.defString();
                 type = 2;
                 break;
@@ -490,6 +496,7 @@ public class ElementHandler {
                 PrefsVal.SparseArray annotationObj = (PrefsVal.SparseArray) annotation;
                 defValFromId = annotationObj.defValFromId();
                 defNull = annotationObj.defNull();
+                defEmpty = annotationObj.defEmpty();
                 defString = annotationObj.defString();
                 type = 2;
                 break;
@@ -503,6 +510,7 @@ public class ElementHandler {
                 PrefsVal.Map annotationObj = (PrefsVal.Map) annotation;
                 defValFromId = annotationObj.defValFromId();
                 defNull = annotationObj.defNull();
+                defEmpty = annotationObj.defEmpty();
                 defString = annotationObj.defString();
                 type = 2;
                 break;
@@ -515,8 +523,8 @@ public class ElementHandler {
                         typeName, defValFromId, prefixTypeName, suffixTypeName, codecId);
                 break;
             case 2:
-                buildGenericMethod(classBuilder, filedName, currentClass, annotation.annotationType(),
-                        typeName, keyTypeName, valTypeName, defValFromId, defNull, defString,
+                buildGenericMethod(classBuilder, filedName, currentClass, annotation,
+                        typeName, keyTypeName, valTypeName, defValFromId, defNull, defEmpty, defString,
                         suffixTypeName, prefixTypeName);
                 break;
             default:
@@ -550,9 +558,17 @@ public class ElementHandler {
 
         // get方法
         methodInfo = mUserMethodParams.get(defValFromId);
+        if (defValFromId > 0 && methodInfo == null) {
+            canNotFindDefVal(defValFromId);
+        }
         if (methodInfo == null) {
-            codeGetBuilder.addStatement(
-                    StringUtils.format("$T defVal=%s", String.valueOf(defValue)), typeName);
+            // string类型非空时需要处理特殊字符
+            if (mStringTypeName.equals(typeName) && defValue != null) {
+                codeGetBuilder.addStatement("$T defVal=$S", typeName, String.valueOf(defValue));
+            } else {
+                codeGetBuilder.addStatement(
+                        StringUtils.format("$T defVal=%s", String.valueOf(defValue)), typeName);
+            }
         } else if (methodInfo.isMethod()) {
             if (methodInfo.getParamsNum() == 0) {
                 codeGetBuilder.addStatement(StringUtils.format(
@@ -641,10 +657,10 @@ public class ElementHandler {
     }
 
     private void buildGenericMethod(TypeSpec.Builder classBuilder, String filedName,
-                                    ClassName currentClass, Class<? extends Annotation> cls,
+                                    ClassName currentClass, Annotation annotation,
                                     TypeName typeName, TypeName keyTypeName, TypeName valTypeName,
-                                    int defValFromId, boolean defNull, String defString,
-                                    TypeName prefixTypeName, TypeName suffixTypeName) {
+                                    int defValFromId, boolean defNull, boolean defEmpty,
+                                    String defString, TypeName prefixTypeName, TypeName suffixTypeName) {
         CodeBlock.Builder codeGetBuilder = CodeBlock.builder();
         CodeBlock.Builder codeSetBuilder = CodeBlock.builder();
         boolean hasPrefix = prefixTypeName != null && prefixTypeName != TypeName.VOID;
@@ -669,7 +685,8 @@ public class ElementHandler {
         MethodInfo serializerMethod = null;
         ClassName serializerClass = null;
         String serializerName = null;
-        for (Integer integer : AnnotationList.getSerializerByVal().get(cls)) {
+        Class<? extends Annotation> annotationType = annotation.annotationType();
+        for (Integer integer : AnnotationList.getSerializerByVal().get(annotationType)) {
             serializerMethod = mMethodInnerMap.get(integer);
             if (serializerMethod == null) {
                 continue;
@@ -679,13 +696,13 @@ public class ElementHandler {
             break;
         }
         if (serializerMethod == null) {
-            canNotFindMethod(cls, true);
+            canNotFindMethod(annotationType, true);
         }
 
         MethodInfo deserializerMethod = null;
         ClassName deserializerClass = null;
         String deserializerName = null;
-        for (Integer integer : AnnotationList.getDeserializerByVal().get(cls)) {
+        for (Integer integer : AnnotationList.getDeserializerByVal().get(annotationType)) {
             deserializerMethod = mMethodInnerMap.get(integer);
             if (deserializerMethod == null) {
                 continue;
@@ -695,7 +712,7 @@ public class ElementHandler {
             break;
         }
         if (deserializerMethod == null) {
-            canNotFindMethod(cls, false);
+            canNotFindMethod(annotationType, false);
         }
 
         // get方法
@@ -731,13 +748,34 @@ public class ElementHandler {
         }
         if (defNull) {
             codeGetBuilder.addStatement("return value");
+        } else if (defEmpty) {
+            codeGetBuilder.beginControlFlow("if(value==null)");
+            if (annotation instanceof PrefsVal.List) {
+                TypeName defType = TypeName.get(ArrayList.class);
+                codeGetBuilder.addStatement("return new $T<>()", defType);
+            } else if (annotation instanceof PrefsVal.Set) {
+                TypeName defType = TypeName.get(HashSet.class);
+                codeGetBuilder.addStatement("return new $T<>()", defType);
+            } else if (annotation instanceof PrefsVal.Queue) {
+                TypeName defType = TypeName.get(LinkedList.class);
+                codeGetBuilder.addStatement("return new $T<>()", defType);
+            } else if (annotation instanceof PrefsVal.Deque) {
+                TypeName defType = TypeName.get(LinkedList.class);
+                codeGetBuilder.addStatement("return new $T<>()", defType);
+            } else if (annotation instanceof PrefsVal.SparseArray) {
+                codeGetBuilder.addStatement("return new $T()", typeName);
+            } else if (annotation instanceof PrefsVal.Map) {
+                TypeName defType = TypeName.get(HashMap.class);
+                codeGetBuilder.addStatement("return new $T<>()", defType);
+            }
+            codeGetBuilder.nextControlFlow("else")
+                    .addStatement("return value")
+                    .endControlFlow();
         } else {
             codeGetBuilder.beginControlFlow("if(value==null)");
             MethodInfo methodInfo = mUserMethodParams.get(defValFromId);
             if (methodInfo == null) {
-                throw new NullPointerException(
-                        "Can not set default value,because can not find a method or const with id="
-                                + defValFromId + "!");
+                canNotFindDefVal(defValFromId);
             } else if (methodInfo.isMethod()) {
                 if (methodInfo.getParamsNum() == 0) {
                     codeGetBuilder.addStatement(StringUtils.format(
@@ -799,13 +837,17 @@ public class ElementHandler {
     }
 
     private static void notSupportMethod(MethodInfo methodInfo, int num1, int num2) {
-        throw new IllegalArgumentException("Only support param num " + num1 + " or " + num2 + ":"
+        throw new IllegalArgumentException("PrefBuilder: Only support param num " + num1 + " or " + num2 + ":"
                 + methodInfo.getClassName() + "." + methodInfo.getClassName() + "!");
     }
 
     private static void canNotFindMethod(Class<? extends Annotation> cls, boolean isSerializer) {
-        throw new IllegalArgumentException("Can not find " +
+        throw new IllegalArgumentException("PrefBuilder: Can not find " +
                 (isSerializer ? "serializer" : "deserializer") + " method of " + cls + "!");
+    }
+
+    private static void canNotFindDefVal(int id) {
+        throw new IllegalArgumentException("PrefBuilder: Can not find default value from id = " + id + " !");
     }
 
 }

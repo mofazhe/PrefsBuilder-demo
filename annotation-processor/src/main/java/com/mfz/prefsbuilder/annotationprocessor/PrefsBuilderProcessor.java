@@ -17,8 +17,7 @@ import javax.lang.model.element.TypeElement;
 import com.mfz.prefsbuilder.BasePrefsClass;
 import com.mfz.prefsbuilder.DefaultValue;
 import com.mfz.prefsbuilder.PrefsClass;
-import com.mfz.prefsbuilder.StringDecode;
-import com.mfz.prefsbuilder.StringEncode;
+import com.mfz.prefsbuilder.StringCodec;
 
 @AutoService(Processor.class)
 @SupportedOptions(value = {
@@ -44,8 +43,8 @@ public class PrefsBuilderProcessor extends AbstractProcessor {
         annotations.add(DefaultValue.class.getCanonicalName());
         annotations.add(PrefsClass.class.getCanonicalName());
         annotations.add(BasePrefsClass.class.getCanonicalName());
-        annotations.add(StringDecode.class.getCanonicalName());
-        annotations.add(StringEncode.class.getCanonicalName());
+        annotations.add(StringCodec.Decode.class.getCanonicalName());
+        annotations.add(StringCodec.Encode.class.getCanonicalName());
         for (Class<? extends Annotation> c : AnnotationList.getPrefsVal()) {
             annotations.add(c.getCanonicalName());
         }

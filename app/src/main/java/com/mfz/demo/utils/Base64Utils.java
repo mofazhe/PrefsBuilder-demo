@@ -3,12 +3,11 @@ package com.mfz.demo.utils;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.mfz.prefsbuilder.StringDecode;
-import com.mfz.prefsbuilder.StringEncode;
+import com.mfz.prefsbuilder.StringCodec;
 
 public class Base64Utils {
 
-    @StringEncode(id = 1)
+    @StringCodec.Encode(id = 1)
     public static String encodeToString(String text) {
         if (TextUtils.isEmpty(text)) {
             return null;
@@ -34,7 +33,7 @@ public class Base64Utils {
         return base64Builder.toString();
     }
 
-    @StringDecode(id = 1)
+    @StringCodec.Decode(id = 1)
     public static String decodeToString(String base64Text) {
         if (TextUtils.isEmpty(base64Text)) {
             return null;

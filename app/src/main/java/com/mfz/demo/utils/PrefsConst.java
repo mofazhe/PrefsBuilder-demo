@@ -21,7 +21,7 @@ import com.mfz.prefsbuilder.PrefsVal;
  * @date 2020/05/14/Thu
  * @time 10:17
  */
-@PrefsClass(className = "Settings",currentClassName = false)
+@PrefsClass(className = "Settings", currentClassName = false)
 public class PrefsConst {
     @PrefsClass()
     public static class User {
@@ -29,6 +29,8 @@ public class PrefsConst {
         public static final String TEST_INT = "null";
         @PrefsVal.String(defNull = true)
         public static final String TEST_STRING = "b";
+        @PrefsVal.String(defVal = "111")
+        public static final String TEST_STRING_NOT = "b";
         @PrefsVal.Byte()
         public static final String TEST_BYTE = "c";
     }
@@ -49,21 +51,25 @@ public class PrefsConst {
     public static final String TEST_SHORT = "a";
     @PrefsVal.String(defValFromId = 111, prefixType = float.class, suffixType = double.class)
     public static final String TEST_STRING = "b";
+    @PrefsVal.String(defVal = "[\"foo\", {\"bar\": [\"baz\", null, 1.0, 2]}]")
+    public static final String TEST_STRING_JSON = "b";
     @PrefsVal.String(defNull = true, prefixType = String.class, suffixType = int.class, codecId = 1)
     public static final String TEST_STRING_BASE64 = "b";
     @PrefsVal.Object(type = Test.class, defValFromId = 1, defNull = true)
     public static final String TEST_OBJECT = "c";
-    @PrefsVal.List(type = Test.class, defValFromId = 2, defString = "[]")
+    @PrefsVal.List(type = Test.class, defEmpty = false, defValFromId = 2, defString = "[]")
     public static final String TEST_LIST = "d";
-    @PrefsVal.Set(type = Test.class, defValFromId = 3)
+    @PrefsVal.List(type = Test.class)
+    public static final String TEST_LIST_EMPTY = "d";
+    @PrefsVal.Set(type = Test.class, defEmpty = false, defValFromId = 3)
     public static final String TEST_SET = "e";
-    @PrefsVal.Queue(type = String.class, defValFromId = 4, suffixType = String.class)
+    @PrefsVal.Queue(type = String.class, defEmpty = false, defValFromId = 4, suffixType = String.class)
     public static final String TEST_QUEUE = "f";
-    @PrefsVal.Deque(type = Test.class, defValFromId = 5, prefixType = int.class)
+    @PrefsVal.Deque(type = Test.class, defEmpty = false, defValFromId = 5, prefixType = int.class)
     public static final String TEST_DEQUE = "g";
-    @PrefsVal.SparseArray(type = String.class, defValFromId = 7, prefixType = int.class)
+    @PrefsVal.SparseArray(type = String.class, defEmpty = false, defValFromId = 7, prefixType = int.class)
     public static final String TEST_SPARSE_ARRAY = "g";
-    @PrefsVal.Map(keyType = String.class, valType = Test.class, defValFromId = 6)
+    @PrefsVal.Map(keyType = String.class, defEmpty = false, valType = Test.class, defValFromId = 6)
     public static final String TEST_MAP = "h";
 
     @DefaultValue(id = 123)

@@ -45,7 +45,7 @@ public @interface PrefsClass {
      *
      * @return the boolean
      */
-    boolean currentPkg() default false;
+    boolean currentPkg() default true;
 
     /**
      * 默认为统一classname转小写中间用下划线分隔

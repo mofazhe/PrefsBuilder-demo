@@ -4,14 +4,14 @@ apply plugin: 'com.jfrog.bintray'
 
 ext {
     bintrayRepo = 'prefs-builder'   //this is the repository name on the bintray site
-    bintrayName = 'anntation-processor'//this is the package name on the bintray site,
+    bintrayName = 'annotation-processor'//this is the package name on the bintray site,
     // so if this package already exists then it will take that but if it doesnt
     // exist then it will craete the package with the name in the above repository
 
     publishedGroupId = 'com.mfz.prefbuilder'
-    artifact = 'anntation-processor'
-    libraryVersion = '0.0.7' // publishedGroupId:artifact:libraryVersion
-    libraryName = 'anntation-processor' //libraryname, artifact must be same as the library module name
+    artifact = 'annotation-processor'
+    libraryVersion = '0.0.8' // publishedGroupId:artifact:libraryVersion
+    libraryName = 'annotation-processor' //libraryname, artifact must be same as the library module name
     libraryDescription = 'Prefs builder'
 
     // github url & git repo
