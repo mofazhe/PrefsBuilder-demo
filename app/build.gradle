@@ -41,9 +41,9 @@ dependencies {
 
     // prefs builder: https://github.com/mofazhe/PrefsBuilder-demo
     // implementation project(':core')
-    implementation 'com.mfz.prefbuilder:core:0.0.7'
+    implementation 'com.mfz.prefbuilder:core:0.0.9'
     // annotationProcessor project(':annotation-processor')
-    annotationProcessor 'com.mfz.prefbuilder:annotation-processor:0.0.7'
+    annotationProcessor 'com.mfz.prefbuilder:annotation-processor:0.0.9'
 
     // Gson: https://github.com/google/gson
     implementation 'com.google.code.gson:gson:2.8.5'
