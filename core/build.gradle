@@ -10,7 +10,7 @@ ext {
 
     publishedGroupId = 'com.mfz.prefbuilder'
     artifact = 'core'
-    libraryVersion = '0.0.9' // publishedGroupId:artifact:libraryVersion
+    libraryVersion = '0.1.0' // publishedGroupId:artifact:libraryVersion
     libraryName = 'core' //libraryname, artifact must be same as the library module name
     libraryDescription = 'Prefs builder'
 
@@ -43,8 +43,7 @@ javadoc {
 dependencies {
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+sourceCompatibility = 1.7
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

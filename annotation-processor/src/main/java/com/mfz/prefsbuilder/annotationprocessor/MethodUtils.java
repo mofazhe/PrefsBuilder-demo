@@ -21,6 +21,9 @@ import javax.lang.model.util.Elements;
 public class MethodUtils {
 
     public static String getBoolMethodName(String filedName) {
+        if (filedName.startsWith("IS_")) {
+            filedName = filedName.substring(2);
+        }
         return "is" + StringUtils.const2BigCamel(filedName);
     }
 

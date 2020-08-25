@@ -12,16 +12,14 @@ import java.lang.annotation.Target;
  * @date 2020 /05/15/Fri
  * @time 18 :17
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.METHOD)
-public @interface Deserializer {
+public class Deserializer {
 
     /**
      * The interface Object.
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Object {
+    public @interface Object {
     }
 
     /**
@@ -29,7 +27,7 @@ public @interface Deserializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface List {
+    public @interface List {
     }
 
     /**
@@ -37,7 +35,7 @@ public @interface Deserializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Set {
+    public @interface Set {
     }
 
     /**
@@ -45,7 +43,7 @@ public @interface Deserializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Queue {
+    public @interface Queue {
     }
 
     /**
@@ -53,7 +51,7 @@ public @interface Deserializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Deque {
+    public @interface Deque {
     }
 
     /**
@@ -61,7 +59,7 @@ public @interface Deserializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface SparseArray {
+    public @interface SparseArray {
     }
 
     /**
@@ -69,6 +67,6 @@ public @interface Deserializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Map {
+    public @interface Map {
     }
 }

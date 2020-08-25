@@ -41,12 +41,12 @@ dependencies {
 
     // prefs builder: https://github.com/mofazhe/PrefsBuilder-demo
     // implementation project(':core')
-    implementation 'com.mfz.prefbuilder:core:0.0.9'
     // annotationProcessor project(':annotation-processor')
-    annotationProcessor 'com.mfz.prefbuilder:annotation-processor:0.0.9'
+    implementation 'com.mfz.prefbuilder:core:0.1.0'
+    annotationProcessor 'com.mfz.prefbuilder:annotation-processor:0.1.0'
 
     // Gson: https://github.com/google/gson
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     // Tray：https://github.com/grandcentrix/tray
     implementation 'net.grandcentrix.tray:tray:0.12.0'
     // 快速生成泛型：https://github.com/ikidou/TypeBuilder

@@ -12,16 +12,14 @@ import java.lang.annotation.Target;
  * @date 2020 /05/15/Fri
  * @time 18 :17
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.METHOD)
-public @interface Serializer {
+public class Serializer {
 
     /**
      * object的序列化方法
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Object {
+    public @interface Object {
     }
 
     /**
@@ -30,7 +28,7 @@ public @interface Serializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface List {
+    public @interface List {
     }
 
     /**
@@ -39,7 +37,7 @@ public @interface Serializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Set {
+    public @interface Set {
     }
 
     /**
@@ -48,7 +46,7 @@ public @interface Serializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Queue {
+    public @interface Queue {
     }
 
     /**
@@ -57,7 +55,7 @@ public @interface Serializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Deque {
+    public @interface Deque {
     }
 
     /**
@@ -66,7 +64,7 @@ public @interface Serializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface SparseArray {
+    public @interface SparseArray {
     }
 
     /**
@@ -75,6 +73,6 @@ public @interface Serializer {
      */
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
-    @interface Map {
+    public @interface Map {
     }
 }

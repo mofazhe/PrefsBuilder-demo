@@ -22,7 +22,12 @@ public class StringUtils {
         return String.format(Locale.getDefault(), format, args);
     }
 
-    // TEST_STRING => TestString
+    /**
+     * TEST_STRING 转 TestString
+     *
+     * @param constName the const name
+     * @return the string
+     */
     public static String const2BigCamel(String constName) {
         String lowerCase = constName.toLowerCase();
         char[] charArray = lowerCase.toCharArray();
@@ -42,7 +47,12 @@ public class StringUtils {
         return new String(charArray).replace("_", "");
     }
 
-    //  TestString=>test_string
+    /**
+     * TestString 转 test_string
+     *
+     * @param camelString the camel string
+     * @return the string
+     */
     public static String camel2SmallConst(String camelString) {
         char[] charArray = camelString.toCharArray();
         StringBuilder sb = new StringBuilder();

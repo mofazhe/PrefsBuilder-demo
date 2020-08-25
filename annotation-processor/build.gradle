@@ -10,7 +10,7 @@ ext {
 
     publishedGroupId = 'com.mfz.prefbuilder'
     artifact = 'annotation-processor'
-    libraryVersion = '0.0.9' // publishedGroupId:artifact:libraryVersion
+    libraryVersion = '0.1.0' // publishedGroupId:artifact:libraryVersion
     libraryName = 'annotation-processor' //libraryname, artifact must be same as the library module name
     libraryDescription = 'Prefs builder'
 
@@ -46,6 +46,9 @@ dependencies {
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
     implementation 'com.squareup:javapoet:1.9.0'
     // compileOnly 'com.google.android:android:4.1.1.4'
+    def incap = '0.2'
+    compileOnly "net.ltgt.gradle.incap:incap:$incap"
+    annotationProcessor "net.ltgt.gradle.incap:incap-processor:$incap"
 
     implementation project(':core')
 }
@@ -54,9 +57,7 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
-
+sourceCompatibility = 1.7
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

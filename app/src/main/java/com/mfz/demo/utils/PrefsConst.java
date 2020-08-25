@@ -41,6 +41,8 @@ public class PrefsConst {
     public static final String TEST_FLOAT = "float";
     @PrefsVal.Bool(defVal = true, defValFromId = 144)
     public static final String TEST_BOOL = "a";
+    @PrefsVal.Bool(defVal = true)
+    public static final String IS_TEST_IS_BOOL = "a";
     @PrefsVal.Byte(defVal = 12, defValFromId = 155)
     public static final String TEST_BYTE = "a";
     @PrefsVal.Double(defVal = 102.2435235, defValFromId = 166)

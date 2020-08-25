@@ -19,12 +19,19 @@ import com.mfz.prefsbuilder.DefaultValue;
 import com.mfz.prefsbuilder.PrefsClass;
 import com.mfz.prefsbuilder.StringCodec;
 
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessor;
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType;
+
+/**
+ * @author mz
+ */
 @AutoService(Processor.class)
 @SupportedOptions(value = {
         Const.OptionArg.PKG,
         Const.OptionArg.CLASS_PREFIX,
         Const.OptionArg.CLASS_SUFFIX,
 })
+@IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.AGGREGATING)
 public class PrefsBuilderProcessor extends AbstractProcessor {
 
     private ElementHandler mHandler;
