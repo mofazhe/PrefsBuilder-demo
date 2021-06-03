@@ -1,10 +1,12 @@
 apply plugin: 'java-library'
 
+version = publishVersion
+archivesBaseName = 'prefs-builder-core'
+group = publishGroupId
+
 ext {
-    artifact = 'prefs-builder-core'
-    libraryName = 'prefs-builder-core'
-    libraryDescription = 'The Core of Prefs Builder'
-    libraryVersion = '0.1.0'
+    libraryName = 'PrefsBuilder-core'
+    libraryDescription = 'the Core of Prefs Builder'
 }
 
 dependencies {

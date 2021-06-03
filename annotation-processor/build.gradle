@@ -1,17 +1,21 @@
 apply plugin: 'java-library'
 
+version = publishVersion
+archivesBaseName = 'prefs-builder-annotation-processor'
+group = publishGroupId
+
 ext {
-    artifact = 'prefs-builder-annotation-processor'
-    libraryName = 'prefs-builder-annotation-processor'
+    libraryName = 'PrefsBuilder-AnnotationProcessor'
     libraryDescription = 'the Annotation Processor of Prefs Builder'
-    libraryVersion = '0.1.0'
 }
 
 dependencies {
     // compileOnly 'com.google.auto:auto-common:0.10'
+    //noinspection AnnotationProcessorOnCompilePath
     compileOnly 'com.google.auto.service:auto-service:1.0-rc6'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
-    implementation 'com.squareup:javapoet:1.9.0'
+
+    implementation 'com.squareup:javapoet:1.10.0'
     // compileOnly 'com.google.android:android:4.1.1.4'
     def incap = '0.2'
     compileOnly "net.ltgt.gradle.incap:incap:$incap"

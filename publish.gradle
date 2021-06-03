@@ -1,5 +1,7 @@
 def pkgType
-if (project.hasProperty("android")) {
+// if (project.hasProperty("android")) {
+if (project.getPlugins().hasPlugin('com.android.application') ||
+        project.getPlugins().hasPlugin('com.android.library')) {
     // Android libraries
     pkgType = "aar"
     task sourcesJar(type: Jar) {
@@ -42,8 +44,14 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 // add javadoc/source jar tasks as artifacts
 artifacts {
-    archives javadocJar
-    archives sourcesJar
+    if (project.getPlugins().hasPlugin('com.android.application') ||
+            project.getPlugins().hasPlugin('com.android.library')) {
+        archives androidSourcesJar
+        archives androidJavadocsJar
+    } else {
+        archives sourcesJar
+        archives javadocJar
+    }
 }
 
 apply plugin: 'maven'
@@ -56,6 +64,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 def developerId = properties.getProperty("developerId")
 def developerName = properties.getProperty("developerName")
 def developerEmail = properties.getProperty("developerEmail")
+def publishGroupId = publishGroupId
 
 ext["signing.keyId"] = properties.getProperty("signing.keyId")
 ext["signing.password"] = properties.getProperty("signing.password")
@@ -68,6 +77,17 @@ signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
+
+// uploadArchives {
+//     repositories {
+//         mavenDeployer {
+//             repository(url: uri('../repo'))
+//
+//             pom.groupId = "io.github.mofazhe"
+//             pom.artifactId = artifact
+//         }
+//     }
+// }
 
 uploadArchives {
     repositories {
@@ -84,9 +104,9 @@ uploadArchives {
             }
 
             //这里可以不是直接申请时候的groupId只要开头是就可以
-            pom.groupId = "io.github.mofazhe"
-            pom.artifactId = artifact
-            pom.version = libraryVersion
+            pom.groupId = publishGroupId
+            // pom.artifactId = artifact
+            // pom.version = libraryVersion
             //这个是直接获取的库gradle里配置好的版本号，不用到处修改版本号，只需要维护一份就可以。
             // pom.version = android.defaultConfig.versionName
 
@@ -94,6 +114,7 @@ uploadArchives {
                 packaging pkgType
 
                 def gitUrl = "https://github.com/mofazhe/PrefsBuilder-demo"
+                def gitScheme = "scm:git@github.com:mofazhe/PrefsBuilder-demo.git"
 
                 name libraryName // '发布库的简单名称'
                 // optionally artifactId can be defined here
@@ -101,8 +122,8 @@ uploadArchives {
                 url gitUrl // '可以写公司官网地址或github个人页面地址'
 
                 scm {
-                    connection gitUrl // 'scm:替换成项目git地址'
-                    developerConnection gitUrl // 'scm:替换为git开头的项目地址'
+                    connection gitScheme // 'scm:替换成项目git地址'
+                    developerConnection gitScheme // 'scm:替换为git开头的项目地址'
                     url gitUrl // '项目首页，可以是github项目的主页'
                 }
 

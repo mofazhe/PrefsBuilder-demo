@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-}
-
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -32,6 +28,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled false
+        }
     }
 }
 
@@ -40,11 +40,11 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
 
     // prefs builder: https://github.com/mofazhe/PrefsBuilder-demo
-    // implementation project(':core')
-    // annotationProcessor project(':annotation-processor')
+    implementation project(':core')
+    annotationProcessor project(':annotation-processor')
     // prefs builder on jcenter(deprecated): https://bintray.com/mfzhemail/prefs-builder
-    implementation 'com.mfz.prefbuilder:core:0.1.0'
-    annotationProcessor 'com.mfz.prefbuilder:annotation-processor:0.1.0'
+    // implementation 'com.mfz.prefbuilder:core:0.1.0'
+    // annotationProcessor 'com.mfz.prefbuilder:annotation-processor:0.1.0'
     // prefs builder on maven central
     // implementation 'io.github.mofazhe:prefs-builder-core:0.1.0'
     // annotationProcessor 'io.github.mofazhe:prefs-builder-annotation-processor:0.1.0'
